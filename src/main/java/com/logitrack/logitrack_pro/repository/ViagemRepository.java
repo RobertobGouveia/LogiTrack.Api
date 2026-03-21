@@ -37,12 +37,4 @@ public interface ViagemRepository extends JpaRepository<Viagem, Long> {
     ORDER BY SUM(v.kmPercorrida) DESC
 """)
     List<Object[]> rankingUtilizacao(Pageable pageable);
-
-
-
-//    Page<Viagem> findByDataChegadaBetween(
-//        LocalDateTime inicio,
-//        LocalDateTime fim,
-//        Pageable pageable
-//    );
 }

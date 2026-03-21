@@ -85,15 +85,4 @@ public class ViagemService {
 
         viagemRepository.delete((viagem));
     }
-//    public Page<Viagem> listarPorPeriodo(
-//            LocalDateTime inicio,
-//            LocalDateTime fim,
-//            Pageable pageable){
-//
-//        if(inicio.isAfter(fim)){
-//            throw new RuntimeException("Data inicial maior que a data final");
-//        }
-//
-//        return viagemRepository.findByDataChegadaBetween(inicio, fim, pageable);
-//    }
 }
