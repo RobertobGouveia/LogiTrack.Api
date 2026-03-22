@@ -41,13 +41,13 @@ DB_PASSWORD=sua_senha
 No arquivo `src/main/resources/application.properties`:
 - `spring.config.import=optional:file:.env[.properties]`
 - `server.port=${PORT:8080}` para suportar porta dinamica em cloud
-- `spring.datasource.url=${DB_URL:jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:logitrack}}`
-- `spring.datasource.username=${DB_USERNAME:${PGUSER:postgres}}`
-- `spring.datasource.password=${DB_PASSWORD:${PGPASSWORD:postgres}}`
+- `spring.datasource.url=${DB_URL}`
+- `spring.datasource.username=${DB_USERNAME}`
+- `spring.datasource.password=${DB_PASSWORD}`
 - `spring.jpa.hibernate.ddl-auto=none`
 - `spring.flyway.baseline-on-migrate=true`
 
-Com isso, o projeto funciona tanto localmente com `.env` quanto em provedores como Railway usando variaveis `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER` e `PGPASSWORD`.
+Com isso, o projeto funciona localmente com `.env` e em cloud quando as variaveis `DB_URL`, `DB_USERNAME` e `DB_PASSWORD` forem configuradas explicitamente no servico da aplicacao.
 
 ## 2) Decisoes tecnicas, ferramentas e arquitetura
 
@@ -112,7 +112,7 @@ Esse script cria:
 
 ### O que o projeto ja possui para deploy
 - Porta dinamica via `server.port=${PORT:8080}`
-- Compatibilidade com variaveis do Railway (`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`)
+- Datasource externo via `DB_URL`, `DB_USERNAME` e `DB_PASSWORD`
 - Migracao automatica com Flyway para bootstrap do schema
 - Endpoint de health em `/actuator/health`
 
@@ -126,15 +126,24 @@ Esse script cria:
 SPRING_PROFILES_ACTIVE=prod
 ```
 
-5. Se preferir, voce tambem pode definir manualmente estas variaveis no servico da aplicacao:
+5. No servico da aplicacao, configure estas variaveis usando referencias do servico PostgreSQL do Railway:
 
 ```env
-DB_URL=jdbc:postgresql://host:5432/database
-DB_USERNAME=usuario
-DB_PASSWORD=senha
+DB_URL=jdbc:postgresql://${{Postgres.PGHOST}}:${{Postgres.PGPORT}}/${{Postgres.PGDATABASE}}
+DB_USERNAME=${{Postgres.PGUSER}}
+DB_PASSWORD=${{Postgres.PGPASSWORD}}
 ```
 
-Se nao definir `DB_*`, a aplicacao consegue usar as variaveis `PG*` do ambiente.
+> Importante: as variaveis do banco precisam existir no **servico da aplicacao**. Se elas nao forem configuradas, o Spring/Flyway nao consegue iniciar o datasource e o deploy falha.
+
+### Erro comum no Railway
+Se aparecer algo como `Connection to localhost:5432 refused`, significa que a aplicacao foi iniciada sem as variaveis corretas do banco e acabou tentando usar um endereco local indevido em algum fallback anterior ou configuracao manual.
+
+Para corrigir:
+1. Abra o servico **da aplicacao** no Railway.
+2. Entre em **Variables**.
+3. Garanta que `DB_URL`, `DB_USERNAME` e `DB_PASSWORD` estejam definidos com referencias para o servico Postgres.
+4. Clique em redeploy.
 
 ### Build e start sugeridos
 Build command:
