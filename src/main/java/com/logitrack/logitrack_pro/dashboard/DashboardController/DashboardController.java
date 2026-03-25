@@ -1,10 +1,7 @@
 package com.logitrack.logitrack_pro.dashboard.DashboardController;
 
 import com.logitrack.logitrack_pro.dashboard.DashboardService.DashboardService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -20,7 +17,7 @@ public class DashboardController {
     }
 
     @GetMapping
-    public Map<String, Object> dashboard(){
-        return dashboardService.obterDashboard();
+    public Map<String, Object> dashboard(@RequestParam(required = false) Long veiculoId){
+        return dashboardService.obterDashboard(veiculoId);
     }
 }

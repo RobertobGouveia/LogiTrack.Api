@@ -23,11 +23,11 @@ public class DashboardService {
         this.manutencaoRepository = manutencaoRepository;
     }
 
-    public Map<String, Object> obterDashboard() {
+    public Map<String, Object> obterDashboard(Long veiculoId) {
 
         Map<String, Object> dashboard = new HashMap<>();
 
-        BigDecimal totalKm = viagemRepository.totalKm(null);
+        BigDecimal totalKm = obterTotalKm(veiculoId);
 
         List<Object[]> volume = viagemRepository.volumePorCategoria();
 
@@ -40,7 +40,9 @@ public class DashboardService {
         List<Manutencao> proximas = manutencaoRepository
                 .findTop5ByDataInicioAfterOrderByDataInicioAsc(LocalDate.now());
 
-        BigDecimal custoMensal = manutencaoRepository.custoMensal();
+        LocalDate inicioMes = LocalDate.now().withDayOfMonth(1);
+        LocalDate inicioProximoMes = inicioMes.plusMonths(1);
+        BigDecimal custoMensal = manutencaoRepository.custoMensal(inicioMes, inicioProximoMes);
 
         dashboard.put("totalKm", totalKm);
         dashboard.put("volumePorCategoria", volume);
@@ -49,5 +51,11 @@ public class DashboardService {
         dashboard.put("custoMensal", custoMensal);
 
         return dashboard;
+    }
+
+    private BigDecimal obterTotalKm(Long veiculoId){
+        return veiculoId == null
+                ? viagemRepository.totalKm()
+                : viagemRepository.totalKmPorVeiculo(veiculoId);
     }
 }
