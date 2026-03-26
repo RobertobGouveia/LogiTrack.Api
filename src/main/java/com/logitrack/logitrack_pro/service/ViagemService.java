@@ -49,12 +49,6 @@ public class ViagemService {
         Viagem viagem = viagemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
 
-        if (dto.getVeiculoId() != null) {
-            Veiculo veiculo = veiculoRepository.findById(dto.getVeiculoId())
-                    .orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
-            viagem.setVeiculo(veiculo);
-        }
-
         if (dto.getDataSaida() != null) {
             viagem.setDataSaida(dto.getDataSaida());
         }

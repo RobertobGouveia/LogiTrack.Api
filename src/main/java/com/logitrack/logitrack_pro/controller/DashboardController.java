@@ -1,6 +1,6 @@
-package com.logitrack.logitrack_pro.dashboard.DashboardController;
+package com.logitrack.logitrack_pro.controller;
 
-import com.logitrack.logitrack_pro.dashboard.DashboardService.DashboardService;
+import com.logitrack.logitrack_pro.service.DashboardService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

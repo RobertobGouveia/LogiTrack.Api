@@ -1,4 +1,4 @@
-package com.logitrack.logitrack_pro.dashboard.DashboardService;
+package com.logitrack.logitrack_pro.service;
 
 import com.logitrack.logitrack_pro.entity.Manutencao;
 import com.logitrack.logitrack_pro.repository.ManutencaoRepository;

@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ViagemUpdateDTO {
-    private Long veiculoId;
     private LocalDateTime dataSaida;
     private LocalDateTime dataChegada;
     private String origem;
