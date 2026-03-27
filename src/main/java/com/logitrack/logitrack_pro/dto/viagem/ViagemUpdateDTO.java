@@ -14,5 +14,5 @@ public class ViagemUpdateDTO {
     private LocalDateTime dataChegada;
     private String origem;
     private String destino;
-    private BigDecimal kmPercorrida;
+    private BigDecimal kmPercorrido;
 }
