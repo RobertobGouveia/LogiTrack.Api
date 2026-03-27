@@ -28,5 +28,6 @@ public class Viagem {
     private String origem;
     private String destino;
 
-    private BigDecimal kmPercorrida;
+    @Column(name = "km_percorrida")
+    private BigDecimal kmPercorrido;
 }

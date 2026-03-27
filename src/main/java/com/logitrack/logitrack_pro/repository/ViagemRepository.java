@@ -13,13 +13,13 @@ public interface ViagemRepository extends JpaRepository<Viagem, Long> {
 
 
     @Query("""
-    SELECT COALESCE(SUM(v.kmPercorrida), 0)
+    SELECT COALESCE(SUM(v.kmPercorrido), 0)
     FROM Viagem v
 """)
     BigDecimal totalKm();
 
     @Query("""
-    SELECT COALESCE(SUM(v.kmPercorrida), 0)
+    SELECT COALESCE(SUM(v.kmPercorrido), 0)
     FROM Viagem v
     WHERE v.veiculo.id = :veiculoId
     """)
@@ -37,7 +37,7 @@ public interface ViagemRepository extends JpaRepository<Viagem, Long> {
 
 
     @Query("""
-    SELECT v.veiculo.placa as placa, COALESCE(SUM(v.kmPercorrida), 0) as totalKm
+    SELECT v.veiculo.placa as placa, COALESCE(SUM(v.kmPercorrido), 0) as totalKm
     FROM Viagem v
     GROUP BY v.veiculo.placa
     ORDER BY totalKm DESC, v.veiculo.placa ASC

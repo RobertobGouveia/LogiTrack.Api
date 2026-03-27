@@ -40,7 +40,7 @@ public class ViagemService {
         viagem.setDataChegada(dto.getDataChegada());
         viagem.setOrigem(dto.getOrigem());
         viagem.setDestino(dto.getDestino());
-        viagem.setKmPercorrida(dto.getKmPercorrido());
+        viagem.setKmPercorrido(dto.getKmPercorrido());
 
         return viagemRepository.save(viagem);
     }
@@ -65,8 +65,8 @@ public class ViagemService {
             viagem.setDestino(dto.getDestino());
         }
 
-        if (dto.getKmPercorrida() != null) {
-            viagem.setKmPercorrida(dto.getKmPercorrida());
+        if (dto.getKmPercorrido() != null) {
+            viagem.setKmPercorrido(dto.getKmPercorrido());
         }
 
         return viagemRepository.save(viagem);
